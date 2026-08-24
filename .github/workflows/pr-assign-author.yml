@@ -1,0 +1,21 @@
+name: Auto-assign PR to author
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+on:
+  pull_request_target: # zizmor: ignore[dangerous-triggers]
+    types: [opened, reopened]
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  assign-author:
+    name: Run toshimaru/auto-author-assign action
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: toshimaru/auto-author-assign@a78a94b219445cece8ccf0d45fec60af449f212a # v3.1.0
